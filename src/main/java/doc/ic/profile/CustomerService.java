@@ -25,18 +25,19 @@ public class CustomerService {
 
   public void addCustomer(NewCustomerRequest request) {
     Customer customer = new Customer();
+    customer.setUsername(request.username());
     customer.setName(request.name());
     customer.setEmail(request.email());
     customer.setAge(request.age());
     customerRepository.save(customer);
   }
 
-  public void deleteCustomer(Integer id) {
-    customerRepository.deleteById(id);
+  public void deleteCustomer(String username) {
+    customerRepository.deleteById(username);
   }
 
-  public void updateCustomer(UpdateCustomerRequest request, Integer id) {
-    Optional<Customer> customer = customerRepository.findById(id);
+  public void updateCustomer(UpdateCustomerRequest request, String username) {
+    Optional<Customer> customer = customerRepository.findById(username);
     if (customer.isPresent()) {
       customer.get().setName(request.name());
       customer.get().setEmail(request.email());

@@ -35,14 +35,14 @@ public class CustomerController {
     customerService.addCustomer(request);
   }
 
-  @DeleteMapping("{customerId}")
-  public void deleteCustomer(@PathVariable("customerId") Integer id) {
-    customerService.deleteCustomer(id);
+  @DeleteMapping("{customerUsername}")
+  public void deleteCustomer(@PathVariable("customerUsername") String username) {
+    customerService.deleteCustomer(username);
   }
 
-  @PutMapping("{customerId}")
+  @PutMapping("{customerUsername}")
   public void updateCustomer(
-      @RequestBody UpdateCustomerRequest request, @PathVariable("customerId") Integer id) {
-    customerService.updateCustomer(request, id);
+      @RequestBody UpdateCustomerRequest request, @PathVariable("customerUsername") String username) {
+    customerService.updateCustomer(request, username);
   }
 }

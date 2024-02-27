@@ -11,23 +11,13 @@ import java.util.Objects;
 public class Customer {
 
   @Id
-  @SequenceGenerator(
-      name = "customer_id_sequence",
-      sequenceName = "customer_id_sequence",
-      allocationSize = 1
-  )
-  @GeneratedValue(
-      strategy = GenerationType.SEQUENCE,
-      generator = "customer_id_sequence"
-  )
-
-  private Integer id;
+  private String username;
   private String name;
   private String email;
   private Integer age;
 
-  public Customer(Integer id, String name, String email, Integer age) {
-    this.id = id;
+  public Customer(String username, String name, String email, Integer age) {
+    this.username = username;
     this.name = name;
     this.email = email;
     this.age = age;
@@ -36,12 +26,12 @@ public class Customer {
   public Customer() {
   }
 
-  public Integer getId() {
-    return id;
+  public String getUsername() {
+    return username;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public String getName() {
@@ -75,19 +65,19 @@ public class Customer {
     if (o == null || getClass() != o.getClass())
       return false;
     Customer customer = (Customer) o;
-    return Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(
+    return Objects.equals(username, customer.username) && Objects.equals(name, customer.name) && Objects.equals(
         email, customer.email) && Objects.equals(age, customer.age);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, email, age);
+    return Objects.hash(username, name, email, age);
   }
 
   @Override
   public String toString() {
     return "Customer{" +
-        "id=" + id +
+        "id=" + username +
         ", name='" + name + '\'' +
         ", email='" + email + '\'' +
         ", age=" + age +

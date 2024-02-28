@@ -7,8 +7,7 @@ import java.util.Objects;
 @Entity
 public class CustomerPassword {
 
-  @Id
-  private String username;
+  @Id private String username;
   private String password;
 
   public CustomerPassword(String username, String password) {
@@ -16,9 +15,7 @@ public class CustomerPassword {
     this.password = password;
   }
 
-  public CustomerPassword() {
-
-  }
+  public CustomerPassword() {}
 
   public String getPassword() {
     return password;
@@ -38,10 +35,8 @@ public class CustomerPassword {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     CustomerPassword that = (CustomerPassword) o;
     return Objects.equals(username, that.username) && Objects.equals(password, that.password);
   }
@@ -53,9 +48,13 @@ public class CustomerPassword {
 
   @Override
   public String toString() {
-    return "CustomerPassword{" +
-        "username='" + username + '\'' +
-        ", password='" + password + '\'' +
-        '}';
+    return "CustomerPassword{"
+        + "username='"
+        + username
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + '}';
   }
 }

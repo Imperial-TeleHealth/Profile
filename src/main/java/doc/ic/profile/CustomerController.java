@@ -42,7 +42,8 @@ public class CustomerController {
 
   @PutMapping("{customerUsername}")
   public void updateCustomer(
-      @RequestBody UpdateCustomerRequest request, @PathVariable("customerUsername") String username) {
+      @RequestBody UpdateCustomerRequest request,
+      @PathVariable("customerUsername") String username) {
     customerService.updateCustomer(request, username);
   }
 }

@@ -54,4 +54,12 @@ public class CustomerService {
     customerPassword.setPassword(request.password());
     customerPasswordRepository.save(customerPassword);
   }
+
+  public boolean login(LoginRequest request) {
+    Optional<Customerpassword> customerPassword =
+        customerPasswordRepository.findById(request.username());
+    return customerPassword
+        .map(customerpassword -> customerpassword.getPassword().equals(request.password()))
+        .orElse(false);
+  }
 }

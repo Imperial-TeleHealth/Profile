@@ -30,6 +30,11 @@ public class CustomerController {
     customerService.signup(request);
   }
 
+  @PostMapping("/login")
+  public boolean login(@RequestBody LoginRequest request) {
+    return customerService.login(request);
+  }
+
   @GetMapping
   public List<Customer> getCustomer() {
     return customerService.getCustomer();

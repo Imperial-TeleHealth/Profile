@@ -1,0 +1,38 @@
+#server:
+#  port: 8080
+#
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5332/customer
+#    username: daniel
+#    password: password
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+#    show-sql: true
+#
+#  main:
+#    web-application-type: servlet
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://telehealthprofileserver.database.windows.net:1433;databaseName = profileDb;
+    username: dh320
+    password: DXXG7722dxxg!
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  main:
+    web-application-type: servlet

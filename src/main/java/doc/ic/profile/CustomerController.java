@@ -25,6 +25,11 @@ public class CustomerController {
     return customerService.greet();
   }
 
+  @PostMapping("/signup")
+  public void signup(@RequestBody SignupRequest request) {
+    customerService.signup(request);
+  }
+
   @GetMapping
   public List<Customer> getCustomer() {
     return customerService.getCustomer();

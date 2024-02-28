@@ -8,6 +8,7 @@ import java.util.Objects;
 public class Customer {
 
   @Id private String username;
+
   private String name;
   private String email;
   private Integer age;

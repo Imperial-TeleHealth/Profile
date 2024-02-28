@@ -2,20 +2,19 @@ package doc.ic.profile;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class CustomerService {
 
   private final CustomerRepository customerRepository;
+  private final CustomerPasswordRepository customerPasswordRepository;
 
-  public CustomerService(CustomerRepository customerRepository) {
+  public CustomerService(
+      CustomerRepository customerRepository,
+      CustomerPasswordRepository customerPasswordRepository) {
     this.customerRepository = customerRepository;
+    this.customerPasswordRepository = customerPasswordRepository;
   }
 
   public List<Customer> getCustomer() {
@@ -47,5 +46,12 @@ public class CustomerService {
 
   public GreetResponse greet() {
     return new GreetResponse("Hello", List.of("java", " c++"), new Person("Daniel"));
+  }
+
+  public void signup(SignupRequest request) {
+    Customerpassword customerPassword = new Customerpassword();
+    customerPassword.setUsername(request.username());
+    customerPassword.setPassword(request.password());
+    customerPasswordRepository.save(customerPassword);
   }
 }

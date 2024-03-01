@@ -32,7 +32,7 @@ public class CustomerServiceTest {
   private final CustomerService customerService =
       new CustomerService(customerRepository, customerPasswordRepository);
 
-  private final Customer customer = new Customer( "email", "name", "01/03/2024");
+  private final Customer customer = new Customer("email", "name", "01/03/2024");
   private final Customerpassword customerPassword = new Customerpassword("username", "password");
 
   @Test
@@ -49,7 +49,7 @@ public class CustomerServiceTest {
   @Test
   public void addCustomerSavesCustomers() {
     // Arrange
-    NewCustomerRequest request = new NewCustomerRequest( "email", "name", "01/03/2024");
+    NewCustomerRequest request = new NewCustomerRequest("email", "name", "01/03/2024");
     // Act
     customerService.addCustomer(request);
     // Assert

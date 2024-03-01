@@ -55,8 +55,7 @@ public class CustomerController {
   }
 
   @PutMapping("/update")
-  public void updateCustomer(
-      @RequestBody UpdateCustomerRequest request) {
+  public void updateCustomer(@RequestBody UpdateCustomerRequest request) {
     customerService.updateCustomer(request);
   }
 }

@@ -49,15 +49,14 @@ public class CustomerController {
     customerService.addCustomer(request);
   }
 
-  @DeleteMapping("{customerUsername}")
-  public void deleteCustomer(@PathVariable("customerUsername") String username) {
-    customerService.deleteCustomer(username);
+  @DeleteMapping("/del")
+  public void deleteCustomer(@RequestBody DeleteCustomerRequest request) {
+    customerService.deleteCustomer(request);
   }
 
-  @PutMapping("{customerUsername}")
+  @PutMapping("/update")
   public void updateCustomer(
-      @RequestBody UpdateCustomerRequest request,
-      @PathVariable("customerUsername") String username) {
-    customerService.updateCustomer(request, username);
+      @RequestBody UpdateCustomerRequest request) {
+    customerService.updateCustomer(request);
   }
 }

@@ -23,23 +23,22 @@ public class CustomerService {
 
   public void addCustomer(NewCustomerRequest request) {
     Customer customer = new Customer();
-    customer.setUsername(request.username());
-    customer.setName(request.name());
     customer.setEmail(request.email());
-    customer.setAge(request.age());
+    customer.setName(request.name());
+    customer.setDateOfBirth(request.dataOfBirth());
     customerRepository.save(customer);
   }
 
-  public void deleteCustomer(String username) {
-    customerRepository.deleteById(username);
+  public void deleteCustomer(DeleteCustomerRequest request) {
+    customerRepository.deleteById(request.email());
   }
 
-  public void updateCustomer(UpdateCustomerRequest request, String username) {
-    Optional<Customer> customer = customerRepository.findById(username);
+  public void updateCustomer(UpdateCustomerRequest request) {
+    String email = request.email();
+    Optional<Customer> customer = customerRepository.findById(email);
     if (customer.isPresent()) {
       customer.get().setName(request.name());
-      customer.get().setEmail(request.email());
-      customer.get().setAge(request.age());
+      customer.get().setDateOfBirth(request.dateOfBirth());
       customerRepository.save(customer.get());
     }
   }
@@ -50,14 +49,14 @@ public class CustomerService {
 
   public void signup(SignupRequest request) {
     Customerpassword customerPassword = new Customerpassword();
-    customerPassword.setUsername(request.username());
+    customerPassword.setEmail(request.email());
     customerPassword.setPassword(request.password());
     customerPasswordRepository.save(customerPassword);
   }
 
   public boolean login(LoginRequest request) {
     Optional<Customerpassword> customerPassword =
-        customerPasswordRepository.findById(request.username());
+        customerPasswordRepository.findById(request.email());
     return customerPassword
         .map(customerpassword -> customerpassword.getPassword().equals(request.password()))
         .orElse(false);

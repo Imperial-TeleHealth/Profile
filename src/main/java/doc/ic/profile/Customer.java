@@ -7,27 +7,26 @@ import java.util.Objects;
 @Entity
 public class Customer {
 
-  @Id private String username;
+  @Id private String email;
 
   private String name;
-  private String email;
-  private Integer age;
+  private String email1;
+  private String dateOfBirth;
 
-  public Customer(String username, String name, String email, Integer age) {
-    this.username = username;
-    this.name = name;
+  public Customer(String email, String name, String dateOfBirth) {
     this.email = email;
-    this.age = age;
+    this.name = name;
+    this.dateOfBirth = dateOfBirth;
   }
 
   public Customer() {}
 
-  public String getUsername() {
-    return username;
+  public String getEmail() {
+    return email;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setEmail(String username) {
+    this.email = username;
   }
 
   public String getName() {
@@ -38,20 +37,12 @@ public class Customer {
     this.name = name;
   }
 
-  public String getEmail() {
-    return email;
+  public String getDateOfBirth() {
+    return dateOfBirth;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public Integer getAge() {
-    return age;
-  }
-
-  public void setAge(Integer age) {
-    this.age = age;
+  public void setDateOfBirth(String dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
   }
 
   @Override
@@ -59,30 +50,26 @@ public class Customer {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Customer customer = (Customer) o;
-    return Objects.equals(username, customer.username)
+    return Objects.equals(email, customer.email)
         && Objects.equals(name, customer.name)
-        && Objects.equals(email, customer.email)
-        && Objects.equals(age, customer.age);
+        && Objects.equals(dateOfBirth, customer.dateOfBirth);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(username, name, email, age);
+    return Objects.hash(email, name, dateOfBirth);
   }
 
   @Override
   public String toString() {
     return "Customer{"
         + "id="
-        + username
+        + email
         + ", name='"
         + name
         + '\''
-        + ", email='"
-        + email
-        + '\''
         + ", age="
-        + age
+        + dateOfBirth
         + '}';
   }
 }

@@ -1,3 +1,3 @@
 package doc.ic.profile;
 
-public record SignupRequest(String username, String password) {}
+public record SignupRequest(String email, String password) {}

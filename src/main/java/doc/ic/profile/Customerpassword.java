@@ -7,11 +7,11 @@ import java.util.Objects;
 @Entity
 public class Customerpassword {
 
-  @Id private String username;
+  @Id private String email;
   private String password;
 
-  public Customerpassword(String username, String password) {
-    this.username = username;
+  public Customerpassword(String email, String password) {
+    this.email = email;
     this.password = password;
   }
 
@@ -25,12 +25,12 @@ public class Customerpassword {
     this.password = password;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setEmail(String username) {
+    this.email = username;
   }
 
-  public String getUsername() {
-    return username;
+  public String getEmail() {
+    return email;
   }
 
   @Override
@@ -38,19 +38,19 @@ public class Customerpassword {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Customerpassword that = (Customerpassword) o;
-    return Objects.equals(username, that.username) && Objects.equals(password, that.password);
+    return Objects.equals(email, that.email) && Objects.equals(password, that.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(username, password);
+    return Objects.hash(email, password);
   }
 
   @Override
   public String toString() {
     return "CustomerPassword{"
         + "username='"
-        + username
+        + email
         + '\''
         + ", password='"
         + password

@@ -1,4 +1,3 @@
-import static org.hamcrest.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -8,6 +7,7 @@ import doc.ic.profile.CustomerPasswordRepository;
 import doc.ic.profile.CustomerRepository;
 import doc.ic.profile.CustomerService;
 import doc.ic.profile.Customerpassword;
+import doc.ic.profile.DeleteCustomerRequest;
 import doc.ic.profile.LoginRequest;
 import doc.ic.profile.NewCustomerRequest;
 import doc.ic.profile.SignupRequest;
@@ -32,7 +32,7 @@ public class CustomerServiceTest {
   private final CustomerService customerService =
       new CustomerService(customerRepository, customerPasswordRepository);
 
-  private final Customer customer = new Customer("username", "name", "email", 20);
+  private final Customer customer = new Customer( "email", "name", "01/03/2024");
   private final Customerpassword customerPassword = new Customerpassword("username", "password");
 
   @Test
@@ -49,7 +49,7 @@ public class CustomerServiceTest {
   @Test
   public void addCustomerSavesCustomers() {
     // Arrange
-    NewCustomerRequest request = new NewCustomerRequest("username", "name", "email", 20);
+    NewCustomerRequest request = new NewCustomerRequest( "email", "name", "01/03/2024");
     // Act
     customerService.addCustomer(request);
     // Assert
@@ -59,25 +59,23 @@ public class CustomerServiceTest {
   @Test
   public void deleteCustomerDeletesCustomers() {
     // Arrange
-    String username = "username";
+    DeleteCustomerRequest request = new DeleteCustomerRequest("email");
     // Act
-    customerService.deleteCustomer(username);
+    customerService.deleteCustomer(request);
     // Assert
-    Mockito.verify(customerRepository, times(1)).deleteById(username);
+    Mockito.verify(customerRepository, times(1)).deleteById(request.email());
   }
 
   @Test
   public void updateCustomerUpdatesCustomers() {
     // Arrange
-    String username = customer.getUsername();
-    UpdateCustomerRequest request = new UpdateCustomerRequest("name", "email2", 21);
-    when(customerRepository.findById(username)).thenReturn(java.util.Optional.of(customer));
+    UpdateCustomerRequest request = new UpdateCustomerRequest("email", "name", "02/03/2024");
+    when(customerRepository.findById("email")).thenReturn(java.util.Optional.of(customer));
     // Act
-    customerService.updateCustomer(request, "username");
+    customerService.updateCustomer(request);
     // Assert
     Assertions.assertEquals("name", customer.getName());
-    Assertions.assertEquals("email2", customer.getEmail());
-    Assertions.assertEquals(21, customer.getAge());
+    Assertions.assertEquals("02/03/2024", customer.getDateOfBirth());
   }
 
   @Test

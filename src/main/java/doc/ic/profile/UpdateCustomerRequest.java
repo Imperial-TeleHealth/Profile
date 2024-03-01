@@ -1,3 +1,3 @@
 package doc.ic.profile;
 
-public record UpdateCustomerRequest(String name, String email, Integer age) {}
+public record UpdateCustomerRequest(String email, String name, String dateOfBirth) {}

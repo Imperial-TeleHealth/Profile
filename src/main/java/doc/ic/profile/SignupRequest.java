@@ -11,4 +11,9 @@ public record SignupRequest(String email, String password) implements ProfileReq
   public String dateOfBirth() {
     return null;
   }
+
+  @Override
+  public String jwt() {
+    return null;
+  }
 }

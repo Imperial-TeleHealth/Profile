@@ -9,7 +9,6 @@ import doc.ic.profile.CustomerService;
 import doc.ic.profile.Customerpassword;
 import doc.ic.profile.DeleteCustomerRequest;
 import doc.ic.profile.LoginRequest;
-import doc.ic.profile.NewCustomerRequest;
 import doc.ic.profile.SignupRequest;
 import doc.ic.profile.UpdateCustomerRequest;
 import java.util.ArrayList;
@@ -47,19 +46,9 @@ public class CustomerServiceTest {
   }
 
   @Test
-  public void addCustomerSavesCustomers() {
-    // Arrange
-    NewCustomerRequest request = new NewCustomerRequest("email", "name", "01/03/2024");
-    // Act
-    customerService.addCustomer(request);
-    // Assert
-    Customer save = Mockito.verify(customerRepository, times(1)).save(customer);
-  }
-
-  @Test
   public void deleteCustomerDeletesCustomers() {
     // Arrange
-    DeleteCustomerRequest request = new DeleteCustomerRequest("email");
+    DeleteCustomerRequest request = new DeleteCustomerRequest("email", "jwt");
     // Act
     customerService.deleteCustomer(request);
     // Assert
@@ -69,7 +58,7 @@ public class CustomerServiceTest {
   @Test
   public void updateCustomerUpdatesCustomers() {
     // Arrange
-    UpdateCustomerRequest request = new UpdateCustomerRequest("email", "name", "02/03/2024");
+    UpdateCustomerRequest request = new UpdateCustomerRequest("email", "name", "02/03/2024", "jwt");
     when(customerRepository.findById("email")).thenReturn(java.util.Optional.of(customer));
     // Act
     customerService.updateCustomer(request);

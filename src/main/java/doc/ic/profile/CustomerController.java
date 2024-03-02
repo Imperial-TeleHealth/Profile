@@ -1,14 +1,19 @@
 package doc.ic.profile;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,31 +32,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
   @Value("${JWT_KEY}")
-  private String secretKey;
+  private String PRIVATE_KEY;
+
+  @Value("${JWT_PUB_KEY}")
+  private String PUBLIC_KEY;
+
   private final CustomerService customerService;
 
   public CustomerController(CustomerService customerService) {
     this.customerService = customerService;
   }
 
-  @GetMapping("/greet")
-  public GreetResponse greet() {
-    return customerService.greet();
-  }
-
   @PostMapping("/signup")
   public ResponseEntity<Map<String, Object>> signup(@RequestBody SignupRequest request) {
     customerService.signup(request);
-    return getMapResponseEntity(request.email());
-
-  }
-
-  private ResponseEntity<Map<String, Object>> getMapResponseEntity(String email) {
-    String jwtToken = generateJwtToken(email);
-    Map<String, Object> response = new HashMap<>();
-    response.put("ok", true);
-    response.put("token", jwtToken);
-    return ResponseEntity.status(HttpStatus.OK).body(response);
+    try {
+      return getMapResponseEntity(request.email());
+    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @PostMapping("/login")
@@ -59,35 +58,16 @@ public class CustomerController {
     if (!customerService.login(request)) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-
-    return getMapResponseEntity(request.email());
-  }
-
-  private String generateJwtToken(String email) {
-    Instant now = Instant.now();
-    Instant expiry = now.plus(1, ChronoUnit.HOURS); // Token expiry in 1 hour
-
-    return Jwts.builder()
-        .setSubject(email)
-        .setIssuedAt(Date.from(now))
-        .setExpiration(Date.from(expiry))
-        .signWith(getSecretKey())
-        .compact();
-  }
-
-  private SecretKey getSecretKey() {
-    // Use a secret key for signing JWT tokens
-    return Keys.hmacShaKeyFor(secretKey.getBytes());
+    try {
+      return getMapResponseEntity(request.email());
+    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @GetMapping
   public List<Customer> getCustomer() {
     return customerService.getCustomer();
-  }
-
-  @PostMapping
-  public void addCustomer(@RequestBody NewCustomerRequest request) {
-    customerService.addCustomer(request);
   }
 
   @DeleteMapping("/del")
@@ -99,4 +79,33 @@ public class CustomerController {
   public void updateCustomer(@RequestBody UpdateCustomerRequest request) {
     customerService.updateCustomer(request);
   }
+
+  private String generateJwtToken(String email)
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
+    PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(PRIVATE_KEY));
+    KeyFactory kf = KeyFactory.getInstance("RSA");
+
+    // Create a private key object from string
+    PrivateKey privateKey = kf.generatePrivate(spec);
+    Instant now = Instant.now();
+    Instant expiry = now.plus(1, ChronoUnit.HOURS); // Token expiry in 1 hour
+
+    return Jwts.builder()
+        .setSubject(email)
+        .setIssuedAt(Date.from(now))
+        .setExpiration(Date.from(expiry))
+        .signWith(privateKey, SignatureAlgorithm.RS256)
+        .compact();
+  }
+
+  private ResponseEntity<Map<String, Object>> getMapResponseEntity(String email)
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
+    String jwtToken = generateJwtToken(email);
+    Map<String, Object> response = new HashMap<>();
+    response.put("ok", true);
+    response.put("token", jwtToken);
+    response.put("public_key", PUBLIC_KEY);
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
 }

@@ -21,14 +21,6 @@ public class CustomerService {
     return customerRepository.findAll();
   }
 
-  public void addCustomer(NewCustomerRequest request) {
-    Customer customer = new Customer();
-    customer.setEmail(request.email());
-    customer.setName(request.name());
-    customer.setDateOfBirth(request.dataOfBirth());
-    customerRepository.save(customer);
-  }
-
   public void deleteCustomer(DeleteCustomerRequest request) {
     customerRepository.deleteById(request.email());
   }
@@ -41,10 +33,6 @@ public class CustomerService {
       customer.get().setDateOfBirth(request.dateOfBirth());
       customerRepository.save(customer.get());
     }
-  }
-
-  public GreetResponse greet() {
-    return new GreetResponse("Hello", List.of("java", " c++"), new Person("Daniel"));
   }
 
   public void signup(SignupRequest request) {

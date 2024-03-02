@@ -5,4 +5,6 @@ public interface ProfileRequest {
   public String password();
   public String name();
   public String dateOfBirth();
+
+  public String jwt();
 }

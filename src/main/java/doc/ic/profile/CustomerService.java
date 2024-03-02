@@ -45,8 +45,9 @@ public class CustomerService {
     return customerRepository.findById(email).orElse(null);
   }
 
-  public void deleteCustomer(@NotNull DeleteCustomerRequest request) {
-    customerRepository.deleteById(request.email());
+  public void deleteCustomer(@NotNull DeleteCustomerRequest request) throws SignatureException {
+    String email = jwtUtil.extractEmail(request.jwt());
+    customerRepository.deleteById(email);
   }
 
   public void updateCustomer(@NotNull UpdateCustomerRequest request) {

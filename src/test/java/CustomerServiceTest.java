@@ -75,19 +75,23 @@ public class CustomerServiceTest {
     when(jwtUtil.extractEmail(request.jwt())).thenThrow(SignatureException.class);
 
     // Assert
-    Assertions.assertThrows(SignatureException.class, () ->{
-      customerService.getCustomer(request);
-    });
+    Assertions.assertThrows(
+        SignatureException.class,
+        () -> {
+          customerService.getCustomer(request);
+        });
   }
 
   @Test
-  public void deleteCustomerDeletesCustomers() {
+  public void deleteCustomerDeletesCustomers() throws SignatureException {
     // Arrange
-    DeleteCustomerRequest request = new DeleteCustomerRequest("email", "jwt");
+    DeleteCustomerRequest request = new DeleteCustomerRequest("jwt");
+    when(jwtUtil.extractEmail(request.jwt())).thenReturn("email");
+
     // Act
     customerService.deleteCustomer(request);
     // Assert
-    Mockito.verify(customerRepository, times(1)).deleteById(request.email());
+    Mockito.verify(customerRepository, times(1)).deleteById("email");
   }
 
   @Test

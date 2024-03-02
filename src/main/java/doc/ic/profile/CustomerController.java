@@ -45,13 +45,12 @@ public class CustomerController {
     try {
       return jwtUtil.jwtResponse(request.email());
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-      throw new RuntimeException(e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
 
   @GetMapping("/get")
-  public ResponseEntity<Map<String, Object>> getCustomer(@RequestBody GetCustomerRequest request)
-      throws SignatureException {
+  public ResponseEntity<Map<String, Object>> getCustomer(@RequestBody GetCustomerRequest request) {
     HashMap<String, Object> map = new HashMap<>();
     try {
       Customer response = customerService.getCustomer(request);
@@ -67,8 +66,17 @@ public class CustomerController {
   }
 
   @DeleteMapping("/del")
-  public void deleteCustomer(@RequestBody DeleteCustomerRequest request) {
-    customerService.deleteCustomer(request);
+  public ResponseEntity<Map<String, Object>> deleteCustomer(@RequestBody DeleteCustomerRequest request) {
+    HashMap<String, Object> map = new HashMap<>();
+    try {
+      customerService.deleteCustomer(request);
+      map.put("ok", true);
+      map.put("message", "Customer deleted successfully");
+      return ResponseEntity.ok(map);
+    } catch (SignatureException e) {
+      map.put("error", "JWT signature verification failed: " + e.getMessage());
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(map);
+    }
   }
 
   @PutMapping("/update")

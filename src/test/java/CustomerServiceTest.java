@@ -14,20 +14,13 @@ import doc.ic.profile.LoginRequest;
 import doc.ic.profile.SignupRequest;
 import doc.ic.profile.UpdateCustomerRequest;
 import java.security.SignatureException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.springframework.core.env.Environment;
-import org.springframework.test.context.TestPropertySource;
 
 public class CustomerServiceTest {
 
@@ -120,8 +113,7 @@ public class CustomerServiceTest {
   @Test
   public void loginReturnsTrueIfCustomerPasswordMatches() {
     // Arrange
-    when(customerPasswordRepository.findById("email"))
-        .thenReturn(java.util.Optional.of(customerPassword));
+    when(customerPasswordRepository.findById("email")).thenReturn(Optional.of(customerPassword));
     // Act
     boolean login = customerService.login(new LoginRequest("email", "password"));
     // Assert
@@ -131,8 +123,7 @@ public class CustomerServiceTest {
   @Test
   public void loginReturnsTrueIfCustomerPasswordDoesNotMatches() {
     // Arrange
-    when(customerPasswordRepository.findById("username"))
-        .thenReturn(java.util.Optional.of(customerPassword));
+    when(customerPasswordRepository.findById("username")).thenReturn(Optional.of(customerPassword));
     // Act
     boolean login = customerService.login(new LoginRequest("username", "password1"));
     // Assert

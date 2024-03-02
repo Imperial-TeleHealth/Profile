@@ -48,8 +48,12 @@ public class JwtUtil {
   }
 
   public String extractEmail(String jwt) throws SignatureException {
-    Claims claims =
-        Jwts.parserBuilder().setSigningKey(PUBLIC_KEY).build().parseClaimsJws(jwt).getBody();
+    Claims claims;
+    try {
+      claims = Jwts.parserBuilder().setSigningKey(PUBLIC_KEY).build().parseClaimsJws(jwt).getBody();
+    } catch (Exception e) {
+      throw new SignatureException("Invalid JWT");
+    }
     return claims.getSubject();
   }
 

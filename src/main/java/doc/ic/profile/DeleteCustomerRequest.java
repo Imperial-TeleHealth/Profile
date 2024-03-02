@@ -1,6 +1,6 @@
 package doc.ic.profile;
 
-public record DeleteCustomerRequest(String jwt) implements ProfileRequest{
+public record DeleteCustomerRequest(String jwt) implements ProfileRequest {
 
   @Override
   public String email() {

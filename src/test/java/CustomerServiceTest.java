@@ -111,7 +111,6 @@ public class CustomerServiceTest {
 
   @Test
   public void signupSavesCustomerPassword() {
-    // Arrange
     // Act
     customerService.signup(new SignupRequest("email", "password"));
     // Assert

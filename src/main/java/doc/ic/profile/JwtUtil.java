@@ -28,6 +28,7 @@ public class JwtUtil {
 
   @Value("${JWT_PUB_KEY}")
   private String PUBLIC_KEY;
+
   private String generateJwtToken(String email)
       throws NoSuchAlgorithmException, InvalidKeySpecException {
     PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(PRIVATE_KEY));
@@ -47,7 +48,8 @@ public class JwtUtil {
   }
 
   public String extractEmail(String jwt) throws SignatureException {
-    Claims claims = Jwts.parserBuilder().setSigningKey(PUBLIC_KEY).build().parseClaimsJws(jwt).getBody();
+    Claims claims =
+        Jwts.parserBuilder().setSigningKey(PUBLIC_KEY).build().parseClaimsJws(jwt).getBody();
     return claims.getSubject();
   }
 

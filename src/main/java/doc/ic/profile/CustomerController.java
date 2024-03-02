@@ -50,7 +50,8 @@ public class CustomerController {
   }
 
   @GetMapping("/get")
-  public  ResponseEntity<Map<String, Object>> getCustomer(@RequestBody GetCustomerRequest request) throws SignatureException {
+  public ResponseEntity<Map<String, Object>> getCustomer(@RequestBody GetCustomerRequest request)
+      throws SignatureException {
     HashMap<String, Object> map = new HashMap<>();
     try {
       Customer response = customerService.getCustomer(request);
@@ -74,5 +75,4 @@ public class CustomerController {
   public void updateCustomer(@RequestBody UpdateCustomerRequest request) {
     customerService.updateCustomer(request);
   }
-
 }

@@ -31,17 +31,16 @@ import org.springframework.test.context.TestPropertySource;
 
 public class CustomerServiceTest {
 
-//  @org.mockito.Mock public MockitoRule rule = MockitoJUnit.rule();
-  @Mock
-  private final Environment environment = mock(Environment.class);
+  //  @org.mockito.Mock public MockitoRule rule = MockitoJUnit.rule();
+  @Mock private final Environment environment = mock(Environment.class);
 
-  @Mock
-  private final CustomerRepository customerRepository = mock(CustomerRepository.class);
+  @Mock private final CustomerRepository customerRepository = mock(CustomerRepository.class);
+
   @Mock
   private final CustomerPasswordRepository customerPasswordRepository =
       mock(CustomerPasswordRepository.class);
-  @Mock
-  private final JwtUtil jwtUtil = mock(JwtUtil.class);
+
+  @Mock private final JwtUtil jwtUtil = mock(JwtUtil.class);
 
   private final CustomerService customerService =
       new CustomerService(customerRepository, customerPasswordRepository, jwtUtil);

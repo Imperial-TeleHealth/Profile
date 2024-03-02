@@ -29,10 +29,10 @@ public class CustomerService {
   private final CustomerPasswordRepository customerPasswordRepository;
   private final JwtUtil jwtUtil;
 
-
   public CustomerService(
       CustomerRepository customerRepository,
-      CustomerPasswordRepository customerPasswordRepository, JwtUtil jwtUtil) {
+      CustomerPasswordRepository customerPasswordRepository,
+      JwtUtil jwtUtil) {
     this.customerRepository = customerRepository;
     this.customerPasswordRepository = customerPasswordRepository;
     this.jwtUtil = jwtUtil;

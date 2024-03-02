@@ -8,41 +8,65 @@ import doc.ic.profile.CustomerRepository;
 import doc.ic.profile.CustomerService;
 import doc.ic.profile.Customerpassword;
 import doc.ic.profile.DeleteCustomerRequest;
+import doc.ic.profile.GetCustomerRequest;
+import doc.ic.profile.JwtUtil;
 import doc.ic.profile.LoginRequest;
 import doc.ic.profile.SignupRequest;
 import doc.ic.profile.UpdateCustomerRequest;
+import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.springframework.core.env.Environment;
+import org.springframework.test.context.TestPropertySource;
 
 public class CustomerServiceTest {
 
-  @org.mockito.Mock public MockitoRule rule = MockitoJUnit.rule();
+//  @org.mockito.Mock public MockitoRule rule = MockitoJUnit.rule();
+  @Mock
+  private final Environment environment = mock(Environment.class);
 
+  @Mock
   private final CustomerRepository customerRepository = mock(CustomerRepository.class);
+  @Mock
   private final CustomerPasswordRepository customerPasswordRepository =
       mock(CustomerPasswordRepository.class);
+  @Mock
+  private final JwtUtil jwtUtil = mock(JwtUtil.class);
 
-  private final List<Customer> customersList = new ArrayList<>();
   private final CustomerService customerService =
-      new CustomerService(customerRepository, customerPasswordRepository);
-
+      new CustomerService(customerRepository, customerPasswordRepository, jwtUtil);
   private final Customer customer = new Customer("email", "name", "01/03/2024");
-  private final Customerpassword customerPassword = new Customerpassword("username", "password");
+  private final Customerpassword customerPassword = new Customerpassword("email", "password");
+
+  @BeforeEach
+  void setup() {
+    when(environment.getProperty("JWT_KEY")).thenReturn("dummy_private_key");
+    when(environment.getProperty("JWT_PUB_KEY")).thenReturn("dummy_public_key");
+  }
 
   @Test
-  public void getCustomerReturnsListOfCustomers() {
+  public void getCustomerReturnsListOfCustomers() throws SignatureException {
     // Arrange
-    customersList.add(customer);
-    when(customerRepository.findAll()).thenReturn(customersList);
+    GetCustomerRequest request = new GetCustomerRequest("jwt");
+    when(jwtUtil.extractEmail(request.jwt())).thenReturn("email");
+    when(customerRepository.findById("email")).thenReturn(Optional.of(customer));
+
     // Act
-    List<Customer> customers = customerService.getCustomer();
+    Customer result = customerService.getCustomer(request);
+
     // Assert
-    Assertions.assertEquals(1, customers.size());
+    Assertions.assertNotNull(result);
+    Assertions.assertEquals(result, customer);
   }
 
   @Test
@@ -71,7 +95,7 @@ public class CustomerServiceTest {
   public void signupSavesCustomerPassword() {
     // Arrange
     // Act
-    customerService.signup(new SignupRequest("username", "password"));
+    customerService.signup(new SignupRequest("email", "password"));
     // Assert
     Mockito.verify(customerPasswordRepository, times(1)).save(customerPassword);
   }
@@ -79,10 +103,10 @@ public class CustomerServiceTest {
   @Test
   public void loginReturnsTrueIfCustomerPasswordMatches() {
     // Arrange
-    when(customerPasswordRepository.findById("username"))
+    when(customerPasswordRepository.findById("email"))
         .thenReturn(java.util.Optional.of(customerPassword));
     // Act
-    boolean login = customerService.login(new LoginRequest("username", "password"));
+    boolean login = customerService.login(new LoginRequest("email", "password"));
     // Assert
     Assertions.assertTrue(login);
   }

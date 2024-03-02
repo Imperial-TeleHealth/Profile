@@ -6,4 +6,3 @@ doc/ic/profile/Profile.class
 doc/ic/profile/CustomerRepository.class
 doc/ic/profile/Customer.class
 doc/ic/profile/UpdateCustomerRequest.class
-doc/ic/profile/NewCustomerRequest.class

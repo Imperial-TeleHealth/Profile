@@ -95,15 +95,17 @@ public class CustomerServiceTest {
   }
 
   @Test
-  public void updateCustomerUpdatesCustomers() {
+  public void updateCustomerUpdatesCustomers() throws SignatureException {
     // Arrange
-    UpdateCustomerRequest request = new UpdateCustomerRequest("email", "name", "02/03/2024", "jwt");
-    when(customerRepository.findById("email")).thenReturn(java.util.Optional.of(customer));
+    Customer updatedCustomer = new Customer("email", "name", "02/03/2024");
+    UpdateCustomerRequest request = new UpdateCustomerRequest("name", "02/03/2024", "jwt");
+    when(jwtUtil.extractEmail(request.jwt())).thenReturn("email");
+    when(customerRepository.findById("email")).thenReturn(Optional.of(updatedCustomer));
     // Act
     customerService.updateCustomer(request);
     // Assert
-    Assertions.assertEquals("name", customer.getName());
-    Assertions.assertEquals("02/03/2024", customer.getDateOfBirth());
+    Assertions.assertEquals("name", updatedCustomer.getName());
+    Assertions.assertEquals("02/03/2024", updatedCustomer.getDateOfBirth());
   }
 
   @Test

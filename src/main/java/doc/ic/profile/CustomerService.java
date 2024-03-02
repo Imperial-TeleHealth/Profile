@@ -50,8 +50,8 @@ public class CustomerService {
     customerRepository.deleteById(email);
   }
 
-  public void updateCustomer(@NotNull UpdateCustomerRequest request) {
-    String email = request.email();
+  public void updateCustomer(@NotNull UpdateCustomerRequest request) throws SignatureException {
+    String email = jwtUtil.extractEmail(request.jwt());
     Optional<Customer> customer = customerRepository.findById(email);
     if (customer.isPresent()) {
       customer.get().setName(request.name());

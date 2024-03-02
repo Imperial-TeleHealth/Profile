@@ -80,7 +80,16 @@ public class CustomerController {
   }
 
   @PutMapping("/update")
-  public void updateCustomer(@RequestBody UpdateCustomerRequest request) {
-    customerService.updateCustomer(request);
+  public ResponseEntity<HashMap<String, Object>> updateCustomer(@RequestBody UpdateCustomerRequest request) {
+    HashMap<String, Object> map = new HashMap<>();
+    try {
+      customerService.updateCustomer(request);
+      map.put("ok", true);
+      map.put("message", "Customer updated successfully");
+      return ResponseEntity.ok(map);
+    } catch (SignatureException e) {
+      map.put("error", "JWT signature verification failed: " + e.getMessage());
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(map);
+    }
   }
 }

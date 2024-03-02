@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,17 +39,17 @@ public class CustomerService {
     this.jwtUtil = jwtUtil;
   }
 
-  public Customer getCustomer(GetCustomerRequest request) throws SignatureException {
+  public Customer getCustomer(@NotNull GetCustomerRequest request) throws SignatureException {
     String jwt = request.jwt();
     String email = jwtUtil.extractEmail(jwt);
     return customerRepository.findById(email).orElse(null);
   }
 
-  public void deleteCustomer(DeleteCustomerRequest request) {
+  public void deleteCustomer(@NotNull DeleteCustomerRequest request) {
     customerRepository.deleteById(request.email());
   }
 
-  public void updateCustomer(UpdateCustomerRequest request) {
+  public void updateCustomer(@NotNull UpdateCustomerRequest request) {
     String email = request.email();
     Optional<Customer> customer = customerRepository.findById(email);
     if (customer.isPresent()) {
@@ -58,14 +59,14 @@ public class CustomerService {
     }
   }
 
-  public void signup(SignupRequest request) {
+  public void signup(@NotNull SignupRequest request) {
     Customerpassword customerPassword = new Customerpassword();
     customerPassword.setEmail(request.email());
     customerPassword.setPassword(request.password());
     customerPasswordRepository.save(customerPassword);
   }
 
-  public boolean login(LoginRequest request) {
+  public boolean login(@NotNull LoginRequest request) {
     Optional<Customerpassword> customerPassword =
         customerPasswordRepository.findById(request.email());
     return customerPassword

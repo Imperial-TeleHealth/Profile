@@ -53,7 +53,7 @@ public class JwtUtil {
     return claims.getSubject();
   }
 
-  public ResponseEntity<Map<String, Object>> getMapResponseEntity(String email)
+  public ResponseEntity<Map<String, Object>> jwtResponse(String email)
       throws NoSuchAlgorithmException, InvalidKeySpecException {
     String jwtToken = generateJwtToken(email);
     Map<String, Object> response = new HashMap<>();

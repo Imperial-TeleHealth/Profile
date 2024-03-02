@@ -54,7 +54,7 @@ public class CustomerServiceTest {
   }
 
   @Test
-  public void getCustomerReturnsListOfCustomers() throws SignatureException {
+  public void getCustomerReturnsaCustomerWithTheCorrespondingEmail() throws SignatureException {
     // Arrange
     GetCustomerRequest request = new GetCustomerRequest("jwt");
     when(jwtUtil.extractEmail(request.jwt())).thenReturn("email");
@@ -66,6 +66,18 @@ public class CustomerServiceTest {
     // Assert
     Assertions.assertNotNull(result);
     Assertions.assertEquals(result, customer);
+  }
+
+  @Test
+  public void getCustomerReturnsNullIfJwtThrowException() throws SignatureException {
+    // Arrange
+    GetCustomerRequest request = new GetCustomerRequest("jwt");
+    when(jwtUtil.extractEmail(request.jwt())).thenThrow(SignatureException.class);
+
+    // Assert
+    Assertions.assertThrows(SignatureException.class, () ->{
+      customerService.getCustomer(request);
+    });
   }
 
   @Test

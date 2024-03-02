@@ -31,7 +31,7 @@ public class CustomerController {
   public ResponseEntity<Map<String, Object>> signup(@RequestBody SignupRequest request) {
     customerService.signup(request);
     try {
-      return jwtUtil.getMapResponseEntity(request.email());
+      return jwtUtil.jwtResponse(request.email());
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
       throw new RuntimeException(e);
     }
@@ -43,7 +43,7 @@ public class CustomerController {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
     try {
-      return jwtUtil.getMapResponseEntity(request.email());
+      return jwtUtil.jwtResponse(request.email());
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
       throw new RuntimeException(e);
     }

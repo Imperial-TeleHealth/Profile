@@ -106,6 +106,7 @@ public class CustomerServiceTest {
     // Assert
     Assertions.assertEquals("name", updatedCustomer.getName());
     Assertions.assertEquals("02/03/2024", updatedCustomer.getDateOfBirth());
+    Mockito.verify(customerRepository, times(1)).save(updatedCustomer);
   }
 
   @Test

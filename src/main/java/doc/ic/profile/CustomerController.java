@@ -66,7 +66,8 @@ public class CustomerController {
   }
 
   @DeleteMapping("/del")
-  public ResponseEntity<Map<String, Object>> deleteCustomer(@RequestBody DeleteCustomerRequest request) {
+  public ResponseEntity<Map<String, Object>> deleteCustomer(
+      @RequestBody DeleteCustomerRequest request) {
     HashMap<String, Object> map = new HashMap<>();
     try {
       customerService.deleteCustomer(request);
@@ -80,7 +81,8 @@ public class CustomerController {
   }
 
   @PutMapping("/update")
-  public ResponseEntity<HashMap<String, Object>> updateCustomer(@RequestBody UpdateCustomerRequest request) {
+  public ResponseEntity<HashMap<String, Object>> updateCustomer(
+      @RequestBody UpdateCustomerRequest request) {
     HashMap<String, Object> map = new HashMap<>();
     try {
       customerService.updateCustomer(request);

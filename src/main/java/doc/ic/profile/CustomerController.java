@@ -5,6 +5,7 @@ import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +29,10 @@ public class CustomerController {
   }
 
   @GetMapping("/hello")
-  public String hello() {
-    return "Hello, World!";
+  public ResponseEntity<Map<String, Object>> hello() {
+    ResponseEntity<Map<String, Object>> response = new ResponseEntity<>(HttpStatus.OK);
+    Objects.requireNonNull(response.getBody()).put("message", "Hello, World!");
+    return response;
   }
 
   @PostMapping("/signup")

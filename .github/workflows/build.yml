@@ -29,6 +29,7 @@ jobs:
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
@@ -43,15 +44,19 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
-          builder: ${{ steps.setup-buildx.outputs.name }}
-          platform: linux/amd64
+        run: docker buildx build --platform linux/amd64 -t ${{ steps.meta.outputs.tags }} --build-args DATABASE_URL=${{ secrets.DATABASE_URL }} --build-args DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} --build-args DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} ./Dockerfile
+
+      - name: Push Docker image
+        run: docker push ${{ steps.meta.outputs.tags }}
+#        uses: docker/build-push-action@v5
+#        with:
+#          file: ./Dockerfile
+#          push: true
+#          tags: ${{ steps.meta.outputs.tags }}
+#          labels: ${{ steps.meta.outputs.labels }}
+#          build-args: |
+#            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+#            DATABASE_URL=${{ secrets.DATABASE_URL }}
+#            DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
+#          builder: ${{ steps.setup-buildx.outputs.name }}
+#          platform: linux/amd64

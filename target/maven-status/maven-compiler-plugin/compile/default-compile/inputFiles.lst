@@ -1,4 +1,3 @@
-/Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/Person.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/Customerpassword.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/CustomerPasswordRepository.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/LoginRequest.java
@@ -10,7 +9,6 @@
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/GetCustomerRequest.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/CustomerController.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/CustomerRepository.java
-/Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/GreetResponse.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/UpdateCustomerRequest.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/Customer.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/CustomerService.java

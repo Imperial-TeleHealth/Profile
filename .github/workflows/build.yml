@@ -52,8 +52,8 @@ jobs:
             --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
             --build-arg DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
             --build-arg DATABASE_USERNAME="${{ secrets.DATABASE_USERNAME }}" \
-            -t "${{ steps.meta.outputs.tags }}" \
-            ./Dockerfile
+            -t "${{ steps.meta.outputs.tags }}" ./Dockerfile
+            
 
       - name: Push Docker image
         run: docker push ${{ steps.meta.outputs.tags }}

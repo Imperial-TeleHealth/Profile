@@ -29,7 +29,7 @@ public class CustomerController {
     this.jwtUtil = jwtUtil;
   }
 
-  @GetMapping("/hello")
+  @GetMapping("/greeter")
   public ResponseEntity<Map<String, Object>> hello() {
     ResponseEntity<Map<String, Object>> response = new ResponseEntity<>(HttpStatus.OK);
     Objects.requireNonNull(response.getBody()).put("message", "Hello, World!");

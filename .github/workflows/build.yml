@@ -37,7 +37,9 @@ jobs:
           distribution: 'adopt'
 
       - name: Build Java application
-        run: mvn package -DskipTests
+        run: |
+          mvn package -DskipTests
+          ls -al target/*.jar
 
       - name: Upload JAR file as artifact
         uses: actions/upload-artifact@v2

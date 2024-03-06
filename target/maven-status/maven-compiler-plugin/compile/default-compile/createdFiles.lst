@@ -1,8 +1,14 @@
+doc/ic/profile/JwtUtil.class
+doc/ic/profile/CustomerPasswordRepository.class
+doc/ic/profile/LoginRequest.class
 doc/ic/profile/CustomerController.class
-doc/ic/profile/GreetResponse.class
+doc/ic/profile/GetCustomerRequest.class
+doc/ic/profile/DeleteCustomerRequest.class
 doc/ic/profile/CustomerService.class
-doc/ic/profile/Person.class
+doc/ic/profile/Customerpassword.class
+doc/ic/profile/SignupRequest.class
 doc/ic/profile/Profile.class
 doc/ic/profile/CustomerRepository.class
 doc/ic/profile/Customer.class
 doc/ic/profile/UpdateCustomerRequest.class
+doc/ic/profile/ProfileRequest.class

@@ -49,9 +49,9 @@ jobs:
           docker buildx inspect mybuilder --bootstrap
           docker buildx build \
             --platform linux/amd64 \
-#            --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-#            --build-arg DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
-#            --build-arg DATABASE_USERNAME="${{ secrets.DATABASE_USERNAME }}" \
+            --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            --build-arg DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
+            --build-arg DATABASE_USERNAME="${{ secrets.DATABASE_USERNAME }}" \
             -t ${{ steps.meta.outputs.tags }} \
             ./Dockerfile
 

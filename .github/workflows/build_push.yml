@@ -5,6 +5,7 @@ on:
     tags:
       - "v*"
 
+jobs:
   Docker_Build_Push:
     runs-on: ubuntu-latest
     needs: Unit_Test

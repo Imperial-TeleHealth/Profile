@@ -39,8 +39,9 @@ jobs:
       - name: Build Java application
         run: |
           mvn package -DskipTests
-          ls -al target/*.jar
           chmod +x target/*.jar
+          ls -al target/*.jar
+          
 
   Unit_Test:
     runs-on: ubuntu-latest

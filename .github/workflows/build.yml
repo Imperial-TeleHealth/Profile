@@ -39,8 +39,11 @@ jobs:
       - name: Build Java application
         run: mvn package -DskipTests
 
-      - name: Copy JAR file to Docker context
-        run: cp target/*.jar docker-context/
+      - name: Upload JAR file as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-jar
+          path: target/*.jar
 
   Unit_Test:
     runs-on: ubuntu-latest

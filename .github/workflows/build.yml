@@ -28,6 +28,7 @@ jobs:
     needs: Build
     steps:
       - name: Set up Docker Buildx
+        id: setup-buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to the Container registry
@@ -43,29 +44,32 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build Docker image
-        run: |
-          docker buildx create --use --name mybuilder
-          docker buildx inspect mybuilder --bootstrap
-          docker buildx build \
-            --platform linux/amd64 \
-            --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-            --build-arg DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
-            --build-arg DATABASE_USERNAME="${{ secrets.DATABASE_USERNAME }}" \
-            -t "${{ steps.meta.outputs.tags }}" ./Dockerfile
-            
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
+          builder: ${{ steps.setup-buildx.outputs.name }}
+          platform: linux/amd64
 
-      - name: Push Docker image
-        run: docker push ${{ steps.meta.outputs.tags }}
-#        uses: docker/build-push-action@v5
-#        with:
-#          file: ./Dockerfile
-#          push: true
-#          tags: ${{ steps.meta.outputs.tags }}
-#          labels: ${{ steps.meta.outputs.labels }}
-#          build-args: |
-#            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
-#            DATABASE_URL=${{ secrets.DATABASE_URL }}
-#            DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
-#          builder: ${{ steps.setup-buildx.outputs.name }}
-#          platform: linux/amd64
+#      - name: Build Docker image
+#        run: |
+#          docker buildx create --use --name mybuilder
+#          docker buildx inspect mybuilder --bootstrap
+#          docker buildx build \
+#            --platform linux/amd64 \
+#            --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+#            --build-arg DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" \
+#            --build-arg DATABASE_USERNAME="${{ secrets.DATABASE_USERNAME }}" \
+#            -t "${{ steps.meta.outputs.tags }}" ./Dockerfile
+#
+#
+#      - name: Push Docker image
+#        run: docker push "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}}"
+

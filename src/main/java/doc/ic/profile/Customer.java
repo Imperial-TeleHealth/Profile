@@ -10,8 +10,8 @@ public class Customer {
   @Id private String email;
 
   private String name;
-  private String email1;
   private String dateOfBirth;
+  private boolean isDoctor;
 
   public Customer(String email, String name, String dateOfBirth) {
     this.email = email;

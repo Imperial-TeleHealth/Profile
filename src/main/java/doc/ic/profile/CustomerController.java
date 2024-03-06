@@ -27,6 +27,11 @@ public class CustomerController {
     this.jwtUtil = jwtUtil;
   }
 
+  @GetMapping("/hello")
+  public String hello() {
+    return "Hello, World!";
+  }
+
   @PostMapping("/signup")
   public ResponseEntity<Map<String, Object>> signup(@RequestBody SignupRequest request) {
     customerService.signup(request);

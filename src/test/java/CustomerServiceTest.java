@@ -35,7 +35,7 @@ public class CustomerServiceTest {
 
   private final CustomerService customerService =
       new CustomerService(customerRepository, customerPasswordRepository, jwtUtil);
-  private final Customer customer = new Customer("email", "name", "01/03/2024");
+  private final Customer customer = new Customer("email", "name", "01/03/2024", false);
   private final Customerpassword customerPassword = new Customerpassword("email", "password");
 
   @BeforeEach
@@ -90,7 +90,7 @@ public class CustomerServiceTest {
   public void updateCustomerUpdatesCustomers() throws SignatureException {
     // Arrange
     String jwtToken = "jwt";
-    Customer updatedCustomer = new Customer("email", "name", "02/03/2024");
+    Customer updatedCustomer = new Customer("email", "name", "02/03/2024", false);
     UpdateCustomerRequest request = new UpdateCustomerRequest("name", "02/03/2024");
     when(jwtUtil.extractEmail(jwtToken)).thenReturn("email");
     when(customerRepository.findById("email")).thenReturn(Optional.of(updatedCustomer));

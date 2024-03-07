@@ -10,11 +10,13 @@ public class Customer {
   @Id private String email;
   private String name;
   private String dateOfBirth;
+  private Boolean isDoctor;
 
-  public Customer(String email, String name, String dateOfBirth) {
+  public Customer(String email, String name, String dateOfBirth, Boolean isDoctor) {
     this.email = email;
     this.name = name;
     this.dateOfBirth = dateOfBirth;
+    this.isDoctor = isDoctor;
   }
 
   public Customer() {}
@@ -41,6 +43,14 @@ public class Customer {
 
   public void setDateOfBirth(String dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
+  }
+
+  public Boolean getIsDoctor() {
+    return isDoctor;
+  }
+
+  public void setDoctor(Boolean doctor) {
+    isDoctor = doctor;
   }
 
   @Override

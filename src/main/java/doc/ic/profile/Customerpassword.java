@@ -8,21 +8,21 @@ import java.util.Objects;
 public class Customerpassword {
 
   @Id private String email;
-  private String password;
+  private String hashPassword;
 
-  public Customerpassword(String email, String password) {
+  public Customerpassword(String email, String hashPassword) {
     this.email = email;
-    this.password = password;
+    this.hashPassword = hashPassword;
   }
 
   public Customerpassword() {}
 
-  public String getPassword() {
-    return password;
+  public String getHashPassword() {
+    return hashPassword;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setHashPassword(String password) {
+    this.hashPassword = password;
   }
 
   public void setEmail(String username) {
@@ -38,12 +38,12 @@ public class Customerpassword {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Customerpassword that = (Customerpassword) o;
-    return Objects.equals(email, that.email) && Objects.equals(password, that.password);
+    return Objects.equals(email, that.email) && Objects.equals(hashPassword, that.hashPassword);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(email, hashPassword);
   }
 
   @Override
@@ -53,7 +53,7 @@ public class Customerpassword {
         + email
         + '\''
         + ", password='"
-        + password
+        + hashPassword
         + '\''
         + '}';
   }

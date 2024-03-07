@@ -105,7 +105,7 @@ public class CustomerServiceTest {
   @Test
   public void signupSavesCustomerPassword() {
     // Act
-    customerService.signup(new SignupRequest("email", "password", "name", "01/03/2024"));
+    customerService.signup(new SignupRequest("email", "password"));
     // Assert
     Mockito.verify(customerPasswordRepository, times(1)).save(customerPassword);
   }

@@ -1,6 +1,6 @@
 package doc.ic.profile;
 
-public record LoginRequest(String email, String password) implements ProfileRequest {
+public record LoginRequest(String email, String hashedPassword) implements ProfileRequest {
 
   @Override
   public String name() {
@@ -19,6 +19,6 @@ public record LoginRequest(String email, String password) implements ProfileRequ
 
   @Override
   public String toString() {
-    return "LoginRequest[" + "email=" + email + ", " + "password=" + password + ']';
+    return "LoginRequest[" + "email=" + email + ", " + "password=" + hashedPassword + ']';
   }
 }

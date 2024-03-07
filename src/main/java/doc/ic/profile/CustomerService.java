@@ -52,7 +52,7 @@ public class CustomerService {
     customer.setName(request.name());
     customer.setDateOfBirth(request.dateOfBirth());
     customerPassword.setEmail(request.email());
-    customerPassword.setHashPassword(request.password());
+    customerPassword.setHashedPassword(request.hashedPassword());
     customerRepository.save(customer);
     customerPasswordRepository.save(customerPassword);
   }
@@ -61,7 +61,7 @@ public class CustomerService {
     Optional<Customerpassword> customerPassword =
         customerPasswordRepository.findById(request.email());
     return customerPassword
-        .map(customerpassword -> customerpassword.getHashPassword().equals(request.password()))
+        .map(customerpassword -> customerpassword.getHashedPassword().equals(request.hashedPassword()))
         .orElse(false);
   }
 }

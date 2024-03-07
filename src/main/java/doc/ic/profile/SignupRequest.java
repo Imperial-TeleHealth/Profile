@@ -1,6 +1,6 @@
 package doc.ic.profile;
 
-public record SignupRequest(String email, String password, String name, String dateOfBirth) implements ProfileRequest {
+public record SignupRequest(String email, String hashedPassword, String name, String dateOfBirth) implements ProfileRequest {
 
   @Override
   public String jwt() {
@@ -11,7 +11,7 @@ public record SignupRequest(String email, String password, String name, String d
   public String toString() {
     return "SignupRequest{" +
         "email='" + email + '\'' +
-        ", password='" + password + '\'' +
+        ", password='" + hashedPassword + '\'' +
         ", name='" + name + '\'' +
         ", dateOfBirth='" + dateOfBirth + '\'' +
         '}';

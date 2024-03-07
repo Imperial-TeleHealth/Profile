@@ -9,7 +9,7 @@ public record UpdateCustomerRequest(String name, String dateOfBirth)
   }
 
   @Override
-  public String password() {
+  public String hashedPassword() {
     return null;
   }
 

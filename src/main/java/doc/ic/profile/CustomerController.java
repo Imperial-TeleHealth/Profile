@@ -60,7 +60,6 @@ public class CustomerController {
       @RequestHeader("Authorization") String jwtToken) {
     HashMap<String, Object> map = new HashMap<>();
     try {
-      System.out.println(jwtToken);
       Customer response = customerService.getCustomer(jwtToken);
 
       if (response == null) {

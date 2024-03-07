@@ -10,7 +10,7 @@ public record DeleteCustomerRequest(String jwt) implements ProfileRequest {
   }
 
   @Override
-  public String password() {
+  public String hashedPassword() {
     return null;
   }
 

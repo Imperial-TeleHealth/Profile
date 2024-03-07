@@ -3,7 +3,11 @@ HELP.md
 !**/src/main/**/target/
 !**/src/test/**/target/
 application.properties
-Dockerfile
+JwtUtilTest.java
+JwtUtilTest.class
+jwtUtilTest.txt
+Test-JwtUtilTest.xml
+
 
 ### STS ###
 .apt_generated

@@ -26,15 +26,7 @@ public class JwtUtil {
 
   @Value("${JWT_PUB_KEY}")
   private String PUBLIC_KEY;
-  
-//  private JwtUtil(String privateKey, String publicKey) {
-//    this.PRIVATE_KEY = privateKey;
-//    this.PUBLIC_KEY = publicKey;
-//  }
-//
-//  public static JwtUtil createJwtUtil(String privateKey, String publicKey) {
-//    return new JwtUtil(privateKey, publicKey);
-//  }
+
 
   public String generateJwtToken(String email)
       throws NoSuchAlgorithmException, InvalidKeySpecException {

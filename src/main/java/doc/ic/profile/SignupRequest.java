@@ -1,16 +1,6 @@
 package doc.ic.profile;
 
-public record SignupRequest(String email, String password) implements ProfileRequest {
-
-  @Override
-  public String name() {
-    return null;
-  }
-
-  @Override
-  public String dateOfBirth() {
-    return null;
-  }
+public record SignupRequest(String email, String password, String name, String dateOfBirth) implements ProfileRequest {
 
   @Override
   public String jwt() {
@@ -19,6 +9,11 @@ public record SignupRequest(String email, String password) implements ProfileReq
 
   @Override
   public String toString() {
-    return "SignupRequest[" + "email=" + email + ", " + "password=" + password + ']';
+    return "SignupRequest{" +
+        "email='" + email + '\'' +
+        ", password='" + password + '\'' +
+        ", name='" + name + '\'' +
+        ", dateOfBirth='" + dateOfBirth + '\'' +
+        '}';
   }
 }

@@ -3,10 +3,6 @@ HELP.md
 !**/src/main/**/target/
 !**/src/test/**/target/
 application.properties
-JwtUtilTest.java
-JwtUtilTest.class
-jwtUtilTest.txt
-Test-JwtUtilTest.xml
 
 
 ### STS ###

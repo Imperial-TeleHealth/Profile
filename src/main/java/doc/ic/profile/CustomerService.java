@@ -21,9 +21,8 @@ public class CustomerService {
     this.jwtUtil = jwtUtil;
   }
 
-  public Customer getCustomer(@NotNull GetCustomerRequest request) throws SignatureException {
-    String jwt = request.jwt();
-    String email = jwtUtil.extractEmail(jwt);
+  public Customer getCustomer(String jwtToken) throws SignatureException {
+    String email = jwtUtil.extractEmail(jwtToken);
     return customerRepository.findById(email).orElse(null);
   }
 

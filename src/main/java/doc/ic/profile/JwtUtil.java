@@ -1,6 +1,7 @@
 package doc.ic.profile;
 
-import io.jsonwebtoken.Claims;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.KeyFactory;
@@ -9,10 +10,7 @@ import java.security.PrivateKey;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Base64;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,32 +27,48 @@ public class JwtUtil {
   @Value("${JWT_PUB_KEY}")
   private String PUBLIC_KEY;
 
-  private String generateJwtToken(String email)
-      throws NoSuchAlgorithmException, InvalidKeySpecException {
-    PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(PRIVATE_KEY));
-    KeyFactory kf = KeyFactory.getInstance("RSA");
+  private JwtUtil(String privateKey, String publicKey) {
+    this.PRIVATE_KEY = privateKey;
+    this.PUBLIC_KEY = publicKey;
+  }
 
-    // Create a private key object from string
-    PrivateKey privateKey = kf.generatePrivate(spec);
-    Instant now = Instant.now();
-    Instant expiry = now.plus(1, ChronoUnit.HOURS); // Token expiry in 1 hour
+  public static JwtUtil createJwtUtil(String privateKey, String publicKey) {
+    return new JwtUtil(privateKey, publicKey);
+  }
+
+  public String generateJwtToken(String email)
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
+    byte[] keyBytes = Base64.getDecoder().decode(PRIVATE_KEY);
+    PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
+    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+    PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
 
     return Jwts.builder()
-        .setSubject(email)
-        .setIssuedAt(Date.from(now))
-        .setExpiration(Date.from(expiry))
+        .setSubject("email")
+        .setIssuer("daniel")
+        .claim("email", email)
         .signWith(privateKey, SignatureAlgorithm.RS256)
         .compact();
   }
 
   public String extractEmail(String jwt) throws SignatureException {
-    Claims claims;
+    String[] parts = jwt.split("\\.");
+    String encodedPayload = parts[1];
+
+    // Decode the payload part
+    Base64.Decoder decoder = Base64.getDecoder();
+    byte[] decodedBytes = decoder.decode(encodedPayload);
+    String payloadJson = new String(decodedBytes);
+
+    // Parse the payload JSON string
+    ObjectMapper objectMapper = new ObjectMapper();
     try {
-      claims = Jwts.parserBuilder().setSigningKey(PUBLIC_KEY).build().parseClaimsJws(jwt).getBody();
+      JsonNode payloadNode = objectMapper.readTree(payloadJson);
+      return payloadNode.get("email").asText();
     } catch (Exception e) {
-      throw new SignatureException("Invalid JWT");
+      e.printStackTrace();
+      return null;
     }
-    return claims.getSubject();
   }
 
   public ResponseEntity<Map<String, Object>> jwtResponse(String email)

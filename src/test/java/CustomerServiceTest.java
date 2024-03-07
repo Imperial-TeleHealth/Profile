@@ -54,7 +54,7 @@ public class CustomerServiceTest {
     when(customerRepository.findById("email")).thenReturn(Optional.of(customer));
 
     // Act
-    Customer result = customerService.getCustomer(request);
+    Customer result = customerService.getCustomer(request.jwt());
 
     // Assert
     Assertions.assertNotNull(result);
@@ -71,7 +71,7 @@ public class CustomerServiceTest {
     Assertions.assertThrows(
         SignatureException.class,
         () -> {
-          customerService.getCustomer(request);
+          customerService.getCustomer(request.jwt());
         });
   }
 

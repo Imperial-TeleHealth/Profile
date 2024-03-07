@@ -11,7 +11,6 @@ public class Customer {
 
   private String name;
   private String dateOfBirth;
-  private boolean isDoctor;
 
   public Customer(String email, String name, String dateOfBirth) {
     this.email = email;

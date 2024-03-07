@@ -4,6 +4,7 @@
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/ProfileRequest.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/SignupRequest.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/DeleteCustomerRequest.java
+/Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/GlobalExceptionHandler.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/Profile.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/JwtUtil.java
 /Users/danielhuang/Course/SSE/Imperial-TeleHealth/Profile/src/main/java/doc/ic/profile/GetCustomerRequest.java

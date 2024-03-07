@@ -2,12 +2,7 @@ package doc.ic.profile;
 
 import java.util.Objects;
 
-public final class GetCustomerRequest implements ProfileRequest {
-  private final String jwt;
-
-  public GetCustomerRequest(String jwt) {
-    this.jwt = jwt;
-  }
+public record GetCustomerRequest(String jwt) implements ProfileRequest {
 
   @Override
   public String email() {
@@ -30,21 +25,11 @@ public final class GetCustomerRequest implements ProfileRequest {
   }
 
   @Override
-  public String jwt() {
-    return jwt;
-  }
-
-  @Override
   public boolean equals(Object obj) {
     if (obj == this) return true;
     if (obj == null || obj.getClass() != this.getClass()) return false;
     var that = (GetCustomerRequest) obj;
     return Objects.equals(this.jwt, that.jwt);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(jwt);
   }
 
   @Override

@@ -49,8 +49,8 @@ public class CustomerService {
     Customerpassword customerPassword = new Customerpassword();
     Customer customer = new Customer();
     customer.setEmail(request.email());
-    customer.setName("name");
-    customer.setDateOfBirth("dateOfBirth");
+    customer.setName(request.name());
+    customer.setDateOfBirth(request.dateOfBirth());
     customerPassword.setEmail(request.email());
     customerPassword.setPassword(request.password());
     customerRepository.save(customer);

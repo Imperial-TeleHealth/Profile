@@ -52,16 +52,22 @@ public class JwtUtil {
   }
 
   public String extractEmail(String jwt) throws SignatureException {
-    String[] parts = jwt.split("\\.");
-    String encodedPayload = parts[1];
+    String encodedPayload;
+    try {
+      String[] parts = jwt.split("\\.");
+      encodedPayload = parts[1];
 
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new SignatureException("Invalid JWT token");
+    }
     // Decode the payload part
     Base64.Decoder decoder = Base64.getDecoder();
     byte[] decodedBytes = decoder.decode(encodedPayload);
     String payloadJson = new String(decodedBytes);
-
     // Parse the payload JSON string
     ObjectMapper objectMapper = new ObjectMapper();
+
     try {
       JsonNode payloadNode = objectMapper.readTree(payloadJson);
       return payloadNode.get("email").asText();

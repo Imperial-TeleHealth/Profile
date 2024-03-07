@@ -21,8 +21,8 @@ public class Customerpassword {
     return hashedPassword;
   }
 
-  public void setHashedPassword(String password) {
-    this.hashedPassword = password;
+  public void setHashedPassword(String hashedPassword) {
+    this.hashedPassword = hashedPassword;
   }
 
   public void setEmail(String username) {

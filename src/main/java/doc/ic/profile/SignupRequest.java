@@ -1,7 +1,5 @@
 package doc.ic.profile;
 
-import java.util.Objects;
-
 public record SignupRequest(String email, String password) implements ProfileRequest {
 
   @Override

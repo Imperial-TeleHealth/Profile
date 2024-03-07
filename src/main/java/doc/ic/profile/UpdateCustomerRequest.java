@@ -1,6 +1,6 @@
 package doc.ic.profile;
 
-public record UpdateCustomerRequest(String name, String dateOfBirth, String jwt)
+public record UpdateCustomerRequest(String name, String dateOfBirth)
     implements ProfileRequest {
 
   @Override
@@ -14,6 +14,11 @@ public record UpdateCustomerRequest(String name, String dateOfBirth, String jwt)
   }
 
   @Override
+  public String jwt() {
+    return null;
+  }
+
+  @Override
   public String toString() {
     return "UpdateCustomerRequest["
         + "name="
@@ -21,9 +26,6 @@ public record UpdateCustomerRequest(String name, String dateOfBirth, String jwt)
         + ", "
         + "dateOfBirth="
         + dateOfBirth
-        + ", "
-        + "jwt="
-        + jwt
         + ']';
   }
 }

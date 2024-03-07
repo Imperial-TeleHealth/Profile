@@ -23,7 +23,10 @@ public class CustomerService {
 
   public Customer getCustomer(String jwtToken) throws SignatureException {
     String email = jwtUtil.extractEmail(jwtToken);
-    return customerRepository.findById(email).orElse(null);
+    if (customerPasswordRepository.findById(email).orElse(null) != null) {
+      return customerRepository.findById(email).orElse(null);
+    }
+    return null;
   }
 
   public void deleteCustomer(@NotNull DeleteCustomerRequest request) throws SignatureException {
@@ -31,8 +34,8 @@ public class CustomerService {
     customerRepository.deleteById(email);
   }
 
-  public void updateCustomer(@NotNull UpdateCustomerRequest request) throws SignatureException {
-    String email = jwtUtil.extractEmail(request.jwt());
+  public void updateCustomer(String jwtToken, @NotNull UpdateCustomerRequest request) throws SignatureException {
+    String email = jwtUtil.extractEmail(jwtToken);
     Optional<Customer> customer = customerRepository.findById(email);
     if (customer.isPresent()) {
       customer.get().setName(request.name());
@@ -43,8 +46,13 @@ public class CustomerService {
 
   public void signup(@NotNull SignupRequest request) {
     Customerpassword customerPassword = new Customerpassword();
+    Customer customer = new Customer();
+    customer.setEmail(request.email());
+    customer.setName("name");
+    customer.setDateOfBirth("dateOfBirth");
     customerPassword.setEmail(request.email());
     customerPassword.setPassword(request.password());
+    customerRepository.save(customer);
     customerPasswordRepository.save(customerPassword);
   }
 

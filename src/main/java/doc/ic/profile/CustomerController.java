@@ -5,7 +5,6 @@ import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,11 +28,9 @@ public class CustomerController {
     this.jwtUtil = jwtUtil;
   }
 
-  @GetMapping("/greeter")
-  public ResponseEntity<Map<String, Object>> hello() {
-    ResponseEntity<Map<String, Object>> response = new ResponseEntity<>(HttpStatus.OK);
-    Objects.requireNonNull(response.getBody()).put("message", "Hello, World!");
-    return response;
+  @GetMapping("/greeting")
+  public String greeting() {
+    return "Hello, World!";
   }
 
   @PostMapping("/signup")
@@ -59,17 +56,19 @@ public class CustomerController {
   }
 
   @GetMapping("/get")
-  public ResponseEntity<Map<String, Object>> getCustomer(@RequestHeader("Authorization") String jwtToken) {
+  public ResponseEntity<Map<String, Object>> getCustomer(
+      @RequestHeader("Authorization") String jwtToken) {
     HashMap<String, Object> map = new HashMap<>();
     try {
+      System.out.println(jwtToken);
       Customer response = customerService.getCustomer(jwtToken);
+
       if (response == null) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
       }
       map.put("email", response.getEmail());
       map.put("name", response.getName());
       map.put("dateOfBirth", response.getDateOfBirth());
-      // TODO: Do I generate a jwt to renew session?
       return ResponseEntity.ok(map);
     } catch (SignatureException e) {
       map.put("error", "JWT signature verification failed: " + e.getMessage() + e.getMessage());
@@ -94,10 +93,11 @@ public class CustomerController {
 
   @PutMapping("/update")
   public ResponseEntity<HashMap<String, Object>> updateCustomer(
+      @RequestHeader("Authorization") String jwtToken,
       @RequestBody UpdateCustomerRequest request) {
     HashMap<String, Object> map = new HashMap<>();
     try {
-      customerService.updateCustomer(request);
+      customerService.updateCustomer(jwtToken, request);
       map.put("ok", true);
       map.put("message", "Customer updated successfully");
       return ResponseEntity.ok(map);
@@ -107,4 +107,3 @@ public class CustomerController {
     }
   }
 }
-

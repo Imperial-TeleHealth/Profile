@@ -8,7 +8,6 @@ import java.util.Objects;
 public class Customer {
 
   @Id private String email;
-
   private String name;
   private String dateOfBirth;
 

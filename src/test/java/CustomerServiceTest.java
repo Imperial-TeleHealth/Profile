@@ -8,7 +8,6 @@ import doc.ic.profile.CustomerRepository;
 import doc.ic.profile.CustomerService;
 import doc.ic.profile.Customerpassword;
 import doc.ic.profile.DeleteCustomerRequest;
-import doc.ic.profile.GetCustomerRequest;
 import doc.ic.profile.JwtUtil;
 import doc.ic.profile.LoginRequest;
 import doc.ic.profile.SignupRequest;
@@ -49,12 +48,13 @@ public class CustomerServiceTest {
   @Test
   public void getCustomerReturnsaCustomerWithTheCorrespondingEmail() throws SignatureException {
     // Arrange
-    GetCustomerRequest request = new GetCustomerRequest("jwt");
-    when(jwtUtil.extractEmail(request.jwt())).thenReturn("email");
+    String jwt = "jwt";
+    when(jwtUtil.extractEmail(jwt)).thenReturn("email");
+    when(customerPasswordRepository.findById("email")).thenReturn(Optional.of(customerPassword));
     when(customerRepository.findById("email")).thenReturn(Optional.of(customer));
 
     // Act
-    Customer result = customerService.getCustomer(request.jwt());
+    Customer result = customerService.getCustomer(jwt);
 
     // Assert
     Assertions.assertNotNull(result);
@@ -64,14 +64,14 @@ public class CustomerServiceTest {
   @Test
   public void getCustomerReturnsNullIfJwtThrowException() throws SignatureException {
     // Arrange
-    GetCustomerRequest request = new GetCustomerRequest("jwt");
-    when(jwtUtil.extractEmail(request.jwt())).thenThrow(SignatureException.class);
+    String jwt = "jwt";
+    when(jwtUtil.extractEmail(jwt)).thenThrow(SignatureException.class);
 
     // Assert
     Assertions.assertThrows(
         SignatureException.class,
         () -> {
-          customerService.getCustomer(request.jwt());
+          customerService.getCustomer(jwt);
         });
   }
 
@@ -90,12 +90,13 @@ public class CustomerServiceTest {
   @Test
   public void updateCustomerUpdatesCustomers() throws SignatureException {
     // Arrange
+    String jwtToken = "jwt";
     Customer updatedCustomer = new Customer("email", "name", "02/03/2024");
-    UpdateCustomerRequest request = new UpdateCustomerRequest("name", "02/03/2024", "jwt");
-    when(jwtUtil.extractEmail(request.jwt())).thenReturn("email");
+    UpdateCustomerRequest request = new UpdateCustomerRequest("name", "02/03/2024");
+    when(jwtUtil.extractEmail(jwtToken)).thenReturn("email");
     when(customerRepository.findById("email")).thenReturn(Optional.of(updatedCustomer));
     // Act
-    customerService.updateCustomer(request);
+    customerService.updateCustomer(jwtToken, request);
     // Assert
     Assertions.assertEquals("name", updatedCustomer.getName());
     Assertions.assertEquals("02/03/2024", updatedCustomer.getDateOfBirth());

@@ -29,9 +29,10 @@ public class CustomerService {
     return null;
   }
 
-  public void deleteCustomer(@NotNull DeleteCustomerRequest request) throws SignatureException {
-    String email = jwtUtil.extractEmail(request.jwt());
+  public void deleteCustomer(String jwt) throws SignatureException {
+    String email = jwtUtil.extractEmail(jwt);
     customerRepository.deleteById(email);
+    customerPasswordRepository.deleteById(email);
   }
 
   public void updateCustomer(String jwtToken, @NotNull UpdateCustomerRequest request) throws SignatureException {

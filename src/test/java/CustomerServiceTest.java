@@ -7,7 +7,6 @@ import doc.ic.profile.CustomerPasswordRepository;
 import doc.ic.profile.CustomerRepository;
 import doc.ic.profile.CustomerService;
 import doc.ic.profile.Customerpassword;
-import doc.ic.profile.DeleteCustomerRequest;
 import doc.ic.profile.JwtUtil;
 import doc.ic.profile.LoginRequest;
 import doc.ic.profile.SignupRequest;
@@ -78,11 +77,11 @@ public class CustomerServiceTest {
   @Test
   public void deleteCustomerDeletesCustomers() throws SignatureException {
     // Arrange
-    DeleteCustomerRequest request = new DeleteCustomerRequest("jwt");
-    when(jwtUtil.extractEmail(request.jwt())).thenReturn("email");
+    String jwtToken = "jwt";
+    when(jwtUtil.extractEmail(jwtToken)).thenReturn("email");
 
     // Act
-    customerService.deleteCustomer(request);
+    customerService.deleteCustomer(jwtToken);
     // Assert
     Mockito.verify(customerRepository, times(1)).deleteById("email");
   }

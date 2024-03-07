@@ -78,10 +78,10 @@ public class CustomerController {
 
   @DeleteMapping("/del")
   public ResponseEntity<Map<String, Object>> deleteCustomer(
-      @RequestBody DeleteCustomerRequest request) {
+      @RequestHeader("Authorization") String jwtToken) {
     HashMap<String, Object> map = new HashMap<>();
     try {
-      customerService.deleteCustomer(request);
+      customerService.deleteCustomer(jwtToken);
       map.put("ok", true);
       map.put("message", "Customer deleted successfully");
       return ResponseEntity.ok(map);

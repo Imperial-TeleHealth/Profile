@@ -12,6 +12,7 @@ import doc.ic.profile.LoginRequest;
 import doc.ic.profile.SignupRequest;
 import doc.ic.profile.UpdateCustomerRequest;
 import java.security.SignatureException;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ public class CustomerServiceTest {
 
   private final CustomerService customerService =
       new CustomerService(customerRepository, customerPasswordRepository, jwtUtil);
-  private final Customer customer = new Customer("email", "name", "01/03/2024", false);
+  private final Customer customer = new Customer("email", "name", "01/03/2024", true);
   private final Customerpassword customerPassword = new Customerpassword("email", "password");
 
   @BeforeEach
@@ -128,5 +129,15 @@ public class CustomerServiceTest {
     boolean login = customerService.login(new LoginRequest("username", "password1"));
     // Assert
     Assertions.assertFalse(login);
+  }
+
+  @Test
+  public void getAllDoctorReturnsAllCustomerWhereIsDoctorIsTrue() {
+    // Arrange
+    when(customerRepository.findAll()).thenReturn(List.of(customer));
+    // Act
+    List<String> result = customerService.getAllDoctor();
+    // Assert
+    Assertions.assertEquals(result, List.of(customer.getEmail()));
   }
 }

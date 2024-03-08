@@ -72,4 +72,8 @@ public class Customer {
   public String toString() {
     return "Customer{" + "id=" + email + ", name='" + name + '\'' + ", age=" + dateOfBirth + '}';
   }
+
+  public String getId() {
+    return email;
+  }
 }

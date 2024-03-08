@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -103,6 +104,20 @@ public class CustomerController {
     } catch (SignatureException e) {
       map.put("error", "JWT signature verification failed: " + e.getMessage());
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(map);
+    }
+  }
+
+  @GetMapping("/getDoctor")
+  public ResponseEntity<HashMap<String, Object>> getAllDoctor() {
+    HashMap<String, Object> map = new HashMap<>();
+    try {
+      List<String> doctorList = customerService.getAllDoctor();
+      map.put("doctors", doctorList);
+      return ResponseEntity.ok(map);
+
+    } catch (Exception e) {
+      map.put("error", e.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(map);
     }
   }
 }

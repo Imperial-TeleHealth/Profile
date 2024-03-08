@@ -1,7 +1,9 @@
 package doc.ic.profile;
 
 import java.security.SignatureException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,8 @@ public class CustomerService {
     customerPasswordRepository.deleteById(email);
   }
 
-  public void updateCustomer(String jwtToken, @NotNull UpdateCustomerRequest request) throws SignatureException {
+  public void updateCustomer(String jwtToken, @NotNull UpdateCustomerRequest request)
+      throws SignatureException {
     String email = jwtUtil.extractEmail(jwtToken);
     Optional<Customer> customer = customerRepository.findById(email);
     if (customer.isPresent()) {
@@ -61,7 +64,16 @@ public class CustomerService {
     Optional<Customerpassword> customerPassword =
         customerPasswordRepository.findById(request.email());
     return customerPassword
-        .map(customerpassword -> customerpassword.getHashedPassword().equals(request.hashedPassword()))
+        .map(
+            customerpassword ->
+                customerpassword.getHashedPassword().equals(request.hashedPassword()))
         .orElse(false);
+  }
+
+  public List<String> getAllDoctor() {
+    return customerRepository.findAll().stream()
+        .filter(customer -> Boolean.TRUE.equals(customer.getIsDoctor()))
+        .map(Customer::getEmail)
+        .collect(Collectors.toList());
   }
 }
